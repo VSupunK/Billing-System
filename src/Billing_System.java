@@ -1,4 +1,5 @@
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -248,7 +249,7 @@ public class Billing_System extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String item = String.valueOf(jComboBox1.getSelectedIndex());
+        String item = String.valueOf(jComboBox1.getSelectedItem());
         String qty =  String.valueOf(jTextField1.getText());
         String price =  String.valueOf(jTextField2.getText());
         String total =  String.valueOf(jTextField3.getText());
@@ -258,13 +259,30 @@ public class Billing_System extends javax.swing.JFrame {
         DefaultTableModel table = (DefaultTableModel) jTable2.getModel();
         table.addRow(new Object[] {item, qty, price, total});
         
-        jTextField1.setText(null);
+        //to add total into BillAmount
+        Double totalValue = Double.parseDouble(jTextField3.getText());
+        Double billValue = Double.parseDouble(jTextField4.getText());
+        Double billAmountValue = totalValue + billValue;
+        jTextField4.setText(String.valueOf(billAmountValue));
+        
+        jTextField1.setText("1");
         jTextField2.setText(null);
         jTextField3.setText("0.00");
+        
+        JOptionPane.showMessageDialog(this, "Item Added Successfully!", "Done", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) jTable2.getModel();
+        int selectedRow = jTable2.getSelectedRow();
+        String total = jTable2.getValueAt(selectedRow, 3).toString();
+        Double billValue = Double.parseDouble(jTextField4.getText());
+        Double totalVal = Double.parseDouble(total);
+        Double billAmount = billValue - totalVal;
+        jTextField4.setText(String.valueOf(billAmount));
+        table.removeRow(selectedRow);
+        JOptionPane.showMessageDialog(this, "Item Removed Successfully!", "Done", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
@@ -273,7 +291,6 @@ public class Billing_System extends javax.swing.JFrame {
         Double price = Double.parseDouble(jTextField2.getText());
         Double total = qty * price;
         jTextField3.setText(String.valueOf(total));
-        
     }//GEN-LAST:event_jTextField2KeyReleased
 
     /**
