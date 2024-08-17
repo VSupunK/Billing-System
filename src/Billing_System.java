@@ -1,3 +1,6 @@
+
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -95,6 +98,11 @@ public class Billing_System extends javax.swing.JFrame {
 
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+        });
 
         jTextField3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -241,11 +249,32 @@ public class Billing_System extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String item = String.valueOf(jComboBox1.getSelectedIndex());
+        String qty =  String.valueOf(jTextField1.getText());
+        String price =  String.valueOf(jTextField2.getText());
+        String total =  String.valueOf(jTextField3.getText());
+        String billAmount =  String.valueOf(jTextField4.getText());
+        
+        //to get data from table
+        DefaultTableModel table = (DefaultTableModel) jTable2.getModel();
+        table.addRow(new Object[] {item, qty, price, total});
+        
+        jTextField1.setText(null);
+        jTextField2.setText(null);
+        jTextField3.setText("0.00");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        // TODO add your handling code here:
+        Double qty = Double.parseDouble(jTextField1.getText());
+        Double price = Double.parseDouble(jTextField2.getText());
+        Double total = qty * price;
+        jTextField3.setText(String.valueOf(total));
+        
+    }//GEN-LAST:event_jTextField2KeyReleased
 
     /**
      * @param args the command line arguments
